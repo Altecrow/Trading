@@ -1,3 +1,5 @@
+import pandas as pd
+
 crypto_list = ["ADA", "BCH", "BNB", "BTC", "ETC", "ETH", "LINK", "LTC", "XLM", "XRP"]
 data_path = rf"C:\Users\Romain\Desktop\Trade\Codes\Databases Training\Cryptos"
 df_list = {}
