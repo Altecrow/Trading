@@ -55,3 +55,11 @@ for index, row in data.iterrows():
                 entry_time = index
 
 strat_logs = pd.DataFrame(strat_logs, columns=['exit_price', 'entry_price', 'type', 'entry_time', 'exit_time', 'pnl'])
+
+
+plt.title("USDJPY / SL 0.5% / RR 4")
+strat_logs['pnl'].cumsum().plot(figsize=(12,8))
+plt.xlabel("Nombre de Trades")
+plt.ylabel("PnL")
+plt.savefig("USDJPY SL 0.5% RR 4.png")
+plt.show()
