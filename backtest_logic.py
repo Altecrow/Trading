@@ -1,14 +1,16 @@
-data = pd.read_csv('USDJPY_M15.csv')
-data.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
-data['date'] = pd.to_datetime(data['date'])
-data = data.set_index(['date'])
+data = pd.read_csv(rf'C:\Users\Romain\Desktop\Trade\Codes\Databases Training\FX\EURUSD_D1.csv')
+data.columns = ['date', 'open', 'high', 'low', 'close']
+data['date'] = pd.to_datetime(data['date'], format="%d-%m-%Y")
 data['ohlc4'] = (data['open'] + data['high'] + data['low'] + data['close']) / 4 
+data = data[data['date'].dt.year >= 2021]
+data = data.set_index(['date'])
+data
 
 ######
 
 in_pos = None
 stop_loss = 0.005
-rr = 4
+rr = 1
 strat_logs = []
 
 for index, row in data.iterrows():
@@ -44,25 +46,25 @@ for index, row in data.iterrows():
             in_pos = None
     else:
         # Pas en position
-        if row.ohlc4 > row.fvg_down and row.ohlc4 < row.fvg_up:
-            if row.ohlc4 > row.buy_breaker_block_low and row.ohlc4 < row.buy_breaker_block_high:
-                # Entrée en position longue
-                in_pos = 'long'
-                entry_price = row.ohlc4
-                actual_stop = entry_price * (1 - stop_loss)
-                stop_distance = entry_price - actual_stop
-                take_profit = entry_price + stop_distance * rr
-                entry_time = index
-            elif row.ohlc4 > row.sell_breaker_block_low and row.ohlc4 < row.sell_breaker_block_high:
-                # Entrée en position courte
-                in_pos = 'short'
-                entry_price = row.ohlc4
-                actual_stop = entry_price * (1 + stop_loss)
-                stop_distance = actual_stop - entry_price
-                take_profit = entry_price - stop_distance * rr
-                entry_time = index
+        if row["buy_signal"]:
+            # Entrée en position longue
+            in_pos = 'long'
+            entry_price = row.ohlc4
+            actual_stop = entry_price * (1 - stop_loss)
+            stop_distance = entry_price - actual_stop
+            take_profit = entry_price + stop_distance * rr
+            entry_time = index
+        elif row["sell_signal"]:
+            # Entrée en position courte
+            in_pos = 'short'
+            entry_price = row.ohlc4
+            actual_stop = entry_price * (1 + stop_loss)
+            stop_distance = actual_stop - entry_price
+            take_profit = entry_price - stop_distance * rr
+            entry_time = index
 
 strat_logs = pd.DataFrame(strat_logs, columns=['exit_price', 'entry_price', 'type', 'entry_time', 'exit_time', 'pnl'])
+strat_logs
 
 #####
 
