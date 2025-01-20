@@ -1,3 +1,11 @@
+data = pd.read_csv('USDJPY_M15.csv')
+data.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
+data['date'] = pd.to_datetime(data['date'])
+data = data.set_index(['date'])
+data['ohlc4'] = (data['open'] + data['high'] + data['low'] + data['close']) / 4 
+
+######
+
 in_pos = None
 stop_loss = 0.005
 rr = 4
@@ -56,6 +64,7 @@ for index, row in data.iterrows():
 
 strat_logs = pd.DataFrame(strat_logs, columns=['exit_price', 'entry_price', 'type', 'entry_time', 'exit_time', 'pnl'])
 
+#####
 
 plt.title("USDJPY / SL 0.5% / RR 4")
 strat_logs['pnl'].cumsum().plot(figsize=(12,8))
