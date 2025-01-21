@@ -18,6 +18,7 @@ data
 in_pos = None
 stop_loss = 0.005
 rr = 1
+lots = 0.01
 strat_logs = []
 
 for index, row in data.iterrows():
