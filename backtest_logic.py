@@ -1,3 +1,10 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+#####
+
 data = pd.read_csv(rf'C:\Users\Romain\Desktop\Trade\Codes\Databases Training\FX\EURUSD_D1.csv')
 data.columns = ['date', 'open', 'high', 'low', 'close']
 data['date'] = pd.to_datetime(data['date'], format="%d-%m-%Y")
