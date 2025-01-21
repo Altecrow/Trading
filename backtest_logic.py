@@ -71,13 +71,13 @@ for index, row in data.iterrows():
             entry_time = index
 
 strat_logs = pd.DataFrame(strat_logs, columns=['exit_price', 'entry_price', 'type', 'entry_time', 'exit_time', 'pnl'])
+strat_logs['value'] = (strat_logs['pnl'] - 0.0001) * lots * 100000
 strat_logs
 
 #####
 
-plt.title("USDJPY / SL 0.5% / RR 4")
-strat_logs['pnl'].cumsum().plot(figsize=(12,8))
+plt.title(f"EURUSD / SL {stop_loss * 100}% / RR {rr}")
+strat_logs['value'].cumsum().plot(figsize=(12,8))
 plt.xlabel("Nombre de Trades")
 plt.ylabel("PnL")
-plt.savefig("USDJPY SL 0.5% RR 4.png")
 plt.show()
