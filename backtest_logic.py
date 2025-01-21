@@ -19,6 +19,7 @@ in_pos = None
 stop_loss = 0.005
 rr = 1
 lots = 0.01
+spread = 0.0001
 strat_logs = []
 
 for index, row in data.iterrows():
@@ -72,7 +73,7 @@ for index, row in data.iterrows():
             entry_time = index
 
 strat_logs = pd.DataFrame(strat_logs, columns=['exit_price', 'entry_price', 'type', 'entry_time', 'exit_time', 'pnl'])
-strat_logs['value'] = (strat_logs['pnl'] - 0.0001) * lots * 100000
+strat_logs['value'] = (strat_logs['pnl'] - spread) * lots * 100000
 strat_logs
 
 #####
